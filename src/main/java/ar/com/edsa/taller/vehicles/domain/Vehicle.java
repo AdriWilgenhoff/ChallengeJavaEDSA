@@ -45,9 +45,9 @@ public class Vehicle {
     @Column(name = "manufacturing_year", nullable = false)
     private Integer manufacturingYear;
 
-    @OneToMany(mappedBy = "vehicle")
+    @OneToMany(mappedBy = "vehicle", fetch = FetchType.LAZY) // ✅ esta por default pero mejor explícito
     @ToString.Exclude
-    private List <Work> works = new ArrayList<>();
+    private List<Work> works = new ArrayList<>();
 
 
     public void addService(Work s) {

@@ -16,7 +16,7 @@ public class Work {
     @SequenceGenerator(name = "service_job_seq", sequenceName = "service_job_seq", allocationSize = 1)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vehicle_id", nullable = false)
     private Vehicle vehicle;
 

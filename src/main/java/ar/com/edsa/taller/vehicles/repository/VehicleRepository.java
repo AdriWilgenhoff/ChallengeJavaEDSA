@@ -28,7 +28,7 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
     Optional<Vehicle> findByLicensePlate(String licensePlate);
 
-    @EntityGraph(attributePaths = "services")
+    @EntityGraph(attributePaths = "works")
     Optional<Vehicle> findWithServicesByLicensePlate(String licensePlate);
 
 
