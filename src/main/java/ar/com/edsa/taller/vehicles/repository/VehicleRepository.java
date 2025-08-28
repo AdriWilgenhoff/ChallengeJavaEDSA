@@ -32,5 +32,5 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
     Optional<Vehicle> findWithServicesByLicensePlate(String licensePlate);
 
 
-    List<Vehicle> findAttendedOn(LocalDate date);
+    List<Vehicle> findByWorksDate(LocalDate date);
 }

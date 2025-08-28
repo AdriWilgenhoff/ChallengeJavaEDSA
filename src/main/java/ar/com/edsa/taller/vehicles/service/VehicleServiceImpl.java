@@ -102,7 +102,7 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     public List<VehicleDTOs.ResponseWithWorks> findAttendedOn(LocalDate date) {
-        List<Vehicle> vehicles = repo.findAttendedOn(date);
+        List<Vehicle> vehicles = repo.findByWorksDate(date);
         return vehicles.stream()
                 .map(v -> mapper.toResponseWithWorks(
                         v, v.getWorks().stream().map(workMapper::toResponse).toList()))
