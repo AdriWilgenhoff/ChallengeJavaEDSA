@@ -45,19 +45,18 @@ public class Vehicle {
     @Column(name = "manufacturing_year", nullable = false)
     private Integer manufacturingYear;
 
-    @OneToMany(mappedBy = "vehicle", fetch = FetchType.LAZY) // ✅ esta por default pero mejor explícito
+    @OneToMany(mappedBy = "vehicle", fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<Work> works = new ArrayList<>();
 
-
-    public void addService(Work s) {
+    /*public void addService(Work s) {
         works.add(s);
         s.setVehicle(this);
     }
     public void removeService(Work s) {
         works.remove(s);
         s.setVehicle(null);
-    }
+    }*/
 
     public Vehicle(String licensePlate, String chassisNumber, String engineNumber, String make, String color, Integer manufacturingYear) {
         this.licensePlate = licensePlate;

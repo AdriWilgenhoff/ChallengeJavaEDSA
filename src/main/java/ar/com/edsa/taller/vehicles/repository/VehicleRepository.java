@@ -10,17 +10,6 @@ import java.util.Optional;
 
 public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
-    List<Vehicle> findByMakeAndManufacturingYearBetween(
-            String make,
-            Integer manufacturingYearStart,
-            Integer manufacturingYearEnd
-    );
-
-    /* Query personalizada si por SpringData no fuese posible
-    @Query("SELECT v FROM Vehicle v WHERE v.make = ?1 AND v.manufacturingYear BETWEEN ?2 AND ?3")
-    List<Vehicle> encontrarPorMarcaYRangoDeAnios(String marca, Integer anioInicio, Integer anioFin);
-    */
-
     // Existencias (para validar unicidad antes del insert/update)
     boolean existsByLicensePlate(String licensePlate);
     boolean existsByChassisNumber(String chassisNumber);
@@ -30,7 +19,6 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
     @EntityGraph(attributePaths = "works")
     Optional<Vehicle> findWithServicesByLicensePlate(String licensePlate);
-
 
     List<Vehicle> findByWorksDate(LocalDate date);
 }

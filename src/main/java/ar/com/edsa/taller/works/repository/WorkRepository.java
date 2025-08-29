@@ -10,5 +10,4 @@ public interface WorkRepository extends JpaRepository<Work, Long> {
 
     List<Work> findByDate(LocalDate date);
     List<Work> findByVehicle_LicensePlate(String licensePlate);
-    List<Work> findByVehicle_LicensePlateAndDate(String licensePlate, LocalDate date);
 }

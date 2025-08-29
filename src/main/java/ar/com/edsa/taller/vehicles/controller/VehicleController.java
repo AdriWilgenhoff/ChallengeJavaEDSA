@@ -32,7 +32,10 @@ public class VehicleController {
 
     @PostMapping
     @Operation(summary = "Crear un nuevo vehículo")
-    @ApiResponse(responseCode = "201", description = "Vehículo creado exitosamente")
+    @ApiResponse(responseCode = "201", description = "Vehículo creado exitosamente",
+            content = @Content(schema = @Schema(implementation = VehicleDTOs.Create.class)))
+    @ApiResponse(responseCode = "400", description = "Parámetros inválidos",
+            content = @Content(schema = @Schema(implementation = ApiError.class)))
     public ResponseEntity<VehicleDTOs.Response> create(@Valid @RequestBody VehicleDTOs.Create in) {
         var out = service.create(in);
         return ResponseEntity.status(HttpStatus.CREATED).body(out);
@@ -40,7 +43,8 @@ public class VehicleController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar un vehículo existente")
-    @ApiResponse(responseCode = "200", description = "Vehículo actualizado exitosamente")
+    @ApiResponse(responseCode = "200", description = "Vehículo actualizado exitosamente",
+            content = @Content(schema = @Schema(implementation = VehicleDTOs.Update.class)))
     @ApiResponse(responseCode = "404", description = "Vehículo no encontrado")
     public ResponseEntity<VehicleDTOs.Response> update(@PathVariable Long id,
                                                        @Valid @RequestBody VehicleDTOs.Update in) {
@@ -58,7 +62,7 @@ public class VehicleController {
 
     @GetMapping("/{plate}")
     @Operation(summary = "Buscar vehículo por patente")
-    @ApiResponse(responseCode = "200", description = "Vehículo encontrado")
+    @ApiResponse(responseCode = "200", description = "Vehículo encontrado", content = @Content(schema = @Schema(implementation = VehicleDTOs.Response.class)))
     @ApiResponse(responseCode = "404", description = "Vehículo no encontrado",
             content = @Content(schema = @Schema(implementation = ApiError.class)))
     public ResponseEntity<VehicleDTOs.Response> findByPlate(@PathVariable String plate) {
@@ -67,11 +71,10 @@ public class VehicleController {
 
     @GetMapping
     @Operation(summary = "Obtener todos los vehículos")
+    @ApiResponse(responseCode = "200",  content = @Content(schema = @Schema(implementation = VehicleDTOs.Response.class)))
     public ResponseEntity<List<VehicleDTOs.Response>> findAll() {
         return ResponseEntity.ok(service.findAll());
     }
-
-
 
     @GetMapping("/{plate}/with-works")
     @Operation(summary = "Obtener vehículo con sus prestaciones por patente", description = "Obtiene un vehículo completo incluyendo todas sus prestaciones (trabajos) asociadas, utilizando la patente como criterio de búsqueda.")
@@ -86,9 +89,7 @@ public class VehicleController {
     }
 
     @GetMapping("/attended")
-    @Operation(summary = "Obtener vehículos atendidos en una fecha específica",description =
-            "Retorna todos los vehículos que recibieron prestaciones en una fecha particular, incluyendo las prestaciones realizadas en esa fecha. \" +\n" +
-                    "\"Formato de fecha esperado: YYYY-MM-DD. Ejemplo: 2024-03-15")
+    @Operation(summary = "Obtener vehículos atendidos en una fecha específica",description = "Retorna todos los vehículos que recibieron prestaciones en una fecha particular, incluyendo las prestaciones realizadas en esa fecha. Formato de fecha esperado: YYYY-MM-DD. Ejemplo: 2024-03-15")
     @ApiResponse(responseCode = "200", description = "Lista de vehículos atendidos en la fecha especificada",
             content = @Content(schema = @Schema(implementation = VehicleDTOs.ResponseWithWorks[].class)))
     @ApiResponse(responseCode = "400", description = "Formato de fecha inválido (use el formato YYYY-MM-DD) o parámetros incorrectos",

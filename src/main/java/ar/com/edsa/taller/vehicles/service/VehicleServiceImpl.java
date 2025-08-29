@@ -33,15 +33,14 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     @Transactional
     public VehicleDTOs.Response create(VehicleDTOs.Create in) {
-        // Validaciones de unicidad “amigables” (además de las constraints en BD)
         if (repo.existsByLicensePlate(in.licensePlate())) {
-            throw new IllegalArgumentException("License plate already exists");
+            throw new IllegalArgumentException("Patente existente");
         }
         if (repo.existsByChassisNumber(in.chassisNumber())) {
-            throw new IllegalArgumentException("Chassis number already exists");
+            throw new IllegalArgumentException("Numero de Chasis existente");
         }
         if (repo.existsByEngineNumber(in.engineNumber())) {
-            throw new IllegalArgumentException("Engine number already exists");
+            throw new IllegalArgumentException("Numero de Motor existente");
         }
 
         Vehicle v = mapper.toEntity(in);
@@ -53,7 +52,7 @@ public class VehicleServiceImpl implements VehicleService {
     @Transactional
     public VehicleDTOs.Response update(Long id, VehicleDTOs.Update in) {
         Vehicle v = repo.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new VehicleNotFoundException("Vehículo no encontrado con ID: " + id));
 
         mapper.update(v, in);
         v = repo.save(v);
@@ -72,7 +71,7 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public VehicleDTOs.Response findById(Long id) {
         Vehicle v = repo.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new VehicleNotFoundException("Vehículo no encontrado con ID: " + id));
         return mapper.toResponse(v);
     }
 

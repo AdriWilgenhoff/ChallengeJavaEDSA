@@ -11,7 +11,6 @@ import java.util.Locale;
 @Component
 public class VehicleMapper {
 
-    /** Create DTO -> Entity */
     public Vehicle toEntity(VehicleDTOs.Create in) {
         Vehicle v = new Vehicle();
         v.setLicensePlate(normalize(in.licensePlate()));
@@ -23,14 +22,12 @@ public class VehicleMapper {
         return v;
     }
 
-    /** Update DTO -> aplica cambios sobre la Entity existente */
     public void update(Vehicle v, VehicleDTOs.Update in) {
         v.setMake(in.make());
         v.setColor(in.color());
         v.setManufacturingYear(in.manufacturingYear());
     }
 
-    /** Entity -> Response DTO */
     public VehicleDTOs.Response toResponse(Vehicle v) {
         return new VehicleDTOs.Response(
                 v.getId(),
@@ -49,7 +46,6 @@ public class VehicleMapper {
                 v.getMake(), v.getColor(), v.getManufacturingYear(), work
         );
     }
-
 
     private static String normalize(String s) {
         return s == null ? null : s.trim().toUpperCase(Locale.ROOT);

@@ -14,8 +14,8 @@ public class GlobalExceptionHandler {
             IllegalArgumentException ex, HttpServletRequest request) {
 
         ApiError apiError = new ApiError(
-                HttpStatus.NOT_FOUND.value(),
-                "Not Found",
+                HttpStatus.BAD_REQUEST.value(),
+                "Bad Request",
                 ex.getMessage(),
                 request.getRequestURI()
         );
@@ -50,7 +50,5 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
     }
-
-
 
 }

@@ -28,7 +28,7 @@ public class WorkServiceImpl implements WorkService {
     @Override @Transactional
     public WorkDTOs.Response create(WorkDTOs.Create in) {
         Vehicle v = vehicleRepo.findById(in.vehicleId())
-                .orElseThrow(() -> new VehicleNotFoundException("Vehicle not found"));
+                .orElseThrow(() -> new VehicleNotFoundException("Vehiculo no encontrado"));
         Work s = mapper.toEntity(in, v);
         return mapper.toResponse(repo.save(s));
     }
@@ -36,14 +36,14 @@ public class WorkServiceImpl implements WorkService {
     @Override @Transactional
     public WorkDTOs.Response update(Long id, WorkDTOs.Update in) {
         Work s = repo.findById(id)
-                .orElseThrow(() -> new WorkNotFoundException("Service job not found"));
+                .orElseThrow(() -> new WorkNotFoundException("Trabajo no encontrado"));
         mapper.update(s, in);
         return mapper.toResponse(repo.save(s));
     }
 
     @Override @Transactional
     public void delete(Long id) {
-        if (!repo.existsById(id)) throw new WorkNotFoundException("Service job not found");
+        if (!repo.existsById(id)) throw new WorkNotFoundException("Trabajo no encontrado");
         repo.deleteById(id);
     }
 
